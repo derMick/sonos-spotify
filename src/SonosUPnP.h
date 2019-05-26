@@ -162,8 +162,12 @@
 #define SONOS_SOURCE_RADIO 3
 #define SONOS_SOURCE_LINEIN 4
 #define SONOS_SOURCE_MASTER 5
+#define SONOS_SOURCE_SPOTIFY 6
 #define SONOS_SOURCE_FILE_SCHEME "x-file-cifs:"
 #define SONOS_SOURCE_HTTP_SCHEME "x-sonos-http:"
+// #define SONOS_SOURCE_SPOTIFY_SCHEME "x-sonos-spotify:"
+#define SONOS_SOURCE_SPOTIFY_TRACK_SCHEME "x-sonos-spotify:"
+#define SONOS_SOURCE_SPOTIFY_ALBUM_SCHEME "x-rincon-cpcontainer:0004206c" // 0004206c (album ?!?!) or 0006206c (playlist ?!?!) ???
 #define SONOS_SOURCE_RADIO_SCHEME "x-rincon-mp3radio:"
 #define SONOS_SOURCE_RADIO_AAC_SCHEME "aac:"
 #define SONOS_SOURCE_LINEIN_SCHEME "x-rincon-stream:"
@@ -286,6 +290,9 @@ class SonosUPnP
     void play(IPAddress speakerIP);
     void playFile(IPAddress speakerIP, const char *path);
     void playHttp(IPAddress speakerIP, const char *address);
+	// void playSpotify(IPAddress speakerIP, const char *address);
+	void playSpotifyTrack(IPAddress speakerIP, const char *address);
+	void playSpotifyAlbum(IPAddress speakerIP, const char *address);
     void playRadio(IPAddress speakerIP, const char *address, const char *title);
     void playLineIn(IPAddress speakerIP, const char *speakerID);
     void playQueue(IPAddress speakerIP, const char *speakerID);

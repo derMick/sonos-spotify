@@ -177,6 +177,67 @@ void SonosUPnP::playHttp(IPAddress speakerIP, const char *address)
   play(speakerIP);
 }
 
+void SonosUPnP::playSpotifyTrack(IPAddress speakerIP, const char *address)
+{
+  // "x-sonos-http:" does not work for me etAVTransportURI(speakerIP, SONOS_SOURCE_SPOTIFY_SCHEME, address);
+  setAVTransportURI(speakerIP, SONOS_SOURCE_SPOTIFY_TRACK_SCHEME, address);
+  play(speakerIP);
+}
+
+void SonosUPnP::playSpotifyAlbum(IPAddress speakerIP, const char *address)
+{
+	
+  /* //===> only support action=="now" (not queue or next)
+function spotify(player, values) {
+  const action = values[0];
+  const spotifyUri = values[1];
+  const encodedSpotifyUri = encodeURIComponent(spotifyUri);
+  const sid = player.system.getServiceId('Spotify');
+
+  let uri;
+
+  //check if current uri is either a track or a playlist/album
+  if (spotifyUri.startsWith('spotify:track:')) {
+    uri = `x-sonos-spotify:${encodedSpotifyUri}?sid=${sid}&flags=32&sn=1`;
+  } else {
+    uri = `x-rincon-cpcontainer:0006206c${encodedSpotifyUri}`;
+  }
+
+  var metadata = getSpotifyMetadata(encodedSpotifyUri, player.system.getServiceType('Spotify'));
+
+  if (action == 'queue') {
+    return player.coordinator.addURIToQueue(uri, metadata);
+  } else if (action == 'now') {
+    var nextTrackNo = player.coordinator.state.trackNo + 1;
+    let promise = Promise.resolve();
+    if (player.coordinator.avTransportUri.startsWith('x-rincon-queue') === false) {
+      promise = promise.then(() => player.coordinator.setAVTransport(`x-rincon-queue:${player.coordinator.uuid}#0`));
+    }
+
+    return promise.then(() => {
+      return player.coordinator.addURIToQueue(uri, metadata, true, nextTrackNo)
+        .then((addToQueueStatus) => player.coordinator.trackSeek(addToQueueStatus.firsttracknumberenqueued))
+        .then(() => player.coordinator.play());
+    });
+
+  } else if (action == 'next') {
+    var nextTrackNo = player.coordinator.state.trackNo + 1;
+    return player.coordinator.addURIToQueue(uri, metadata, true, nextTrackNo);
+  }
+}
+  */
+	
+  // clear queue
+  removeAllTracksFromQueue(speakerIP);
+
+  // add to queue
+  addTrackToQueue(speakerIP, SONOS_SOURCE_SPOTIFY_ALBUM_SCHEME, address))
+  // setAVTransportURI(speakerIP, SONOS_SOURCE_SPOTIFY_ALBUM_SCHEME, address);
+
+  // play queue
+  play(speakerIP);
+}
+
 void SonosUPnP::playRadio(IPAddress speakerIP, const char *address, const char *title)
 {
   setAVTransportURI(speakerIP, SONOS_SOURCE_RADIO_SCHEME, address, p_RadioMetaFullStart, p_RadioMetaFullEnd, title);
@@ -441,6 +502,20 @@ uint8_t SonosUPnP::getSourceFromURI(const char *uri)
   if (!strncmp(SONOS_SOURCE_HTTP_SCHEME, uri, sizeof(SONOS_SOURCE_HTTP_SCHEME) - 1))
   {
     return SONOS_SOURCE_HTTP;
+  }
+  /*
+  if (!strncmp(SONOS_SOURCE_SPOTIFY_SCHEME, uri, sizeof(SONOS_SOURCE_SPOTIFY_SCHEME) - 1))
+  {
+    return SONOS_SOURCE_SPOTIFY;
+  }
+  */
+  if (!strncmp(SONOS_SOURCE_SPOTIFY_TRACK_SCHEME, uri, sizeof(SONOS_SOURCE_SPOTIFY_TRACK_SCHEME) - 1))
+  {
+    return SONOS_SOURCE_SPOTIFY;
+  }
+  if (!strncmp(SONOS_SOURCE_SPOTIFY_ALBUM_SCHEME, uri, sizeof(SONOS_SOURCE_SPOTIFY_ALBUM_SCHEME) - 1))
+  {
+    return SONOS_SOURCE_SPOTIFY;
   }
   if (!strncmp(SONOS_SOURCE_RADIO_SCHEME, uri, sizeof(SONOS_SOURCE_RADIO_SCHEME) - 1))
   {
