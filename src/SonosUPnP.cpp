@@ -231,7 +231,7 @@ function spotify(player, values) {
   removeAllTracksFromQueue(speakerIP);
 
   // add to queue
-  addTrackToQueue(speakerIP, SONOS_SOURCE_SPOTIFY_ALBUM_SCHEME, address));
+  addTrackToQueue(speakerIP, SONOS_SOURCE_SPOTIFY_ALBUM_SCHEME, address);
   // setAVTransportURI(speakerIP, SONOS_SOURCE_SPOTIFY_ALBUM_SCHEME, address);
 
   // play queue
