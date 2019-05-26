@@ -231,7 +231,7 @@ function spotify(player, values) {
   removeAllTracksFromQueue(speakerIP);
 
   // add to queue
-  addTrackToQueue(speakerIP, SONOS_SOURCE_SPOTIFY_ALBUM_SCHEME, address))
+  addTrackToQueue(speakerIP, SONOS_SOURCE_SPOTIFY_ALBUM_SCHEME, address));
   // setAVTransportURI(speakerIP, SONOS_SOURCE_SPOTIFY_ALBUM_SCHEME, address);
 
   // play queue
@@ -675,7 +675,7 @@ bool SonosUPnP::upnpPost(IPAddress ip, uint8_t upnpMessageType, PGM_P action_P, 
 {
   if (!ethClient.connect(ip, UPNP_PORT)) 
  {
-  Serial.println("we did´nt got a connection");
+  Serial.println("we didÂ´nt got a connection");
   return false;
   }
   
